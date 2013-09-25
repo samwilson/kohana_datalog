@@ -5,8 +5,8 @@
 	"license": "GPL-3.0+",
 	"keywords": ["kohana", "orm", "logging", "auditing"],
 	"support": {
-		"issues": "http://dev.kohanaframework.org",
-		"source": "http://github.com/kohana/core"
+		"issues": "https://github.com/samwilson/kohana_datalog/issues",
+		"source": "https://github.com/samwilson/kohana_datalog"
 	},
 	"authors": [
 		{
@@ -17,8 +17,9 @@
 		}
 	],
 	"require": {
-		"composer/installers": "~1.0",
+		"kohana/orm": "dev-3.3/master",
 		"kohana/core": ">=3.3",
+		"composer/installers": "~1.0",
 		"php": ">=5.3.3"
 	}
 }

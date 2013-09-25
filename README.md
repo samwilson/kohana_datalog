@@ -1,4 +1,3 @@
-=========================
 DataLog module for Kohana
 =========================
 
@@ -34,6 +33,11 @@ so that DataLog can access the model's data before and after being saved.
 		return $parent;
 	}
 
+If DataLog needs to apply to *all* ORM models,
+then the above should be added to `APPPATH/classes/ORM.php`
+
+#### Foreign Keys:
+
 Foreign keys should be suffixed with `_id`.
 This is set by `DataLog::$foreign_key_suffix`.
 
@@ -51,6 +55,9 @@ The static value of the related record's candidate key is used in preferance to
 looking it up dynamically so that the datalog is kept completely self-contained
 and doesn't constrain future redesigns of the models in question.
 
+If the primary key does need to be used in the log,
+then `candidate_key()` should be defined to return it.
+
 If no `candidate_key()` method is defined.... @TODO
 
 ### Viewing:
@@ -60,3 +67,6 @@ with a simple subrequest:
 
 	$datalog_url = "datalog/$table_name/$row_id";
 	$datalog = Request::factory($datalog_url)->execute()->body();
+
+This view is restricted to subrequests only, and is not accessible directly
+(at e.g. `/datalog/model/1`).
