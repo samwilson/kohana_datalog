@@ -9,7 +9,7 @@
 <table class="datalog">
 
 	<caption>
-	<?php echo (isset($caption)) ? $caption : __('Edits made to this record.') ?>
+	<?php echo (isset($caption)) ? $caption : __(Kohana::message('datalog', 'table_caption')) ?>
 	</caption>
 
 	<thead>
@@ -31,8 +31,8 @@
 			<td><?php echo $log->username ?></td>
 
 			<?php if (isset($show_table)): ?>
-			<td><?php echo ucwords(str_replace('_', ' ', $log->table)) ?></td>
-			<td><?php echo $log->row_id ?></td>
+			<td><?php echo ucwords(str_replace('_', ' ', $log->table_name)) ?></td>
+			<td><?php echo $log->row_pk ?></td>
 			<?php endif ?>
 
 			<td class="column_name"><?php echo ucwords(str_replace('_', ' ', $log->column_name)) ?></td>

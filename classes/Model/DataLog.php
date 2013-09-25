@@ -9,7 +9,7 @@ class Model_DataLog extends ORM {
 		'date_and_time' => array('type' => 'string'),
 		'table_name' => array('type' => 'string'),
 		'column_name' => array('type' => 'string'),
-		'row_id' => array('type' => 'int'),
+		'row_pk' => array('type' => 'int'),
 		'username' => array('type' => 'string'),
 		'old_value' => array('type' => 'string', 'is_nullable' => TRUE),
 		'new_value' => array('type' => 'string', 'is_nullable' => TRUE),

@@ -13,7 +13,7 @@ and still keep historical data.
 ## Installation and Configuration
 
 It requires a single database table (named `datalog`), that has the following
-columns: `id`, `date_and_time`, `table_name`, `column_name`, `row_id`,
+columns: `id`, `date_and_time`, `table_name`, `column_name`, `row_pk`,
 `username`, `old_value`, and `new_value`.
 
 Run `php index.php datalog` to create the database table.
@@ -65,7 +65,7 @@ If no `candidate_key()` method is defined.... @TODO
 You can get an HTML table view of a model record's datalog
 with a simple subrequest:
 
-	$datalog_url = "datalog/$table_name/$row_id";
+	$datalog_url = "datalog/$table_name/$row_pk";
 	$datalog = Request::factory($datalog_url)->execute()->body();
 
 This view is restricted to subrequests only, and is not accessible directly

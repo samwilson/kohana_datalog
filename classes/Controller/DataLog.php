@@ -16,7 +16,7 @@ class Controller_DataLog extends Controller {
 		// Get datalog
 		$datalog = ORM::factory('Datalog')
 			->where('table_name', '=', $this->request->param('table_name'))
-			->and_where('row_id', '=', $this->request->param('row_id'))
+			->and_where('row_pk', '=', $this->request->param('row_pk'))
 			->order_by('date_and_time', 'DESC')
 			->order_by('id', 'DESC')
 			->find_all();

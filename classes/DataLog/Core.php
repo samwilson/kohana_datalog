@@ -14,7 +14,7 @@ class DataLog_Core {
 		$this->old_values = $original_values;
 	}
 
-	public function save($row_id, $object, $related)
+	public function save($row_pk, $object, $related)
 	{
 		//var_dump($object);exit();
 		foreach ($object as $field => $new_datum)
@@ -41,7 +41,7 @@ class DataLog_Core {
 				$log_entry = ORM::factory('DataLog');
 				$log_entry->table_name = $this->table_name;
 				$log_entry->column_name = $field;
-				$log_entry->row_id = $row_id;
+				$log_entry->row_pk = $row_pk;
 				$log_entry->old_value = $old_value;
 				$log_entry->new_value = $new_value;
 				$log_entry->save();

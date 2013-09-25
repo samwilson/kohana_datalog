@@ -4,8 +4,12 @@ class Task_DataLog extends Minion_Task {
 
 	protected function _execute(array $params)
 	{
+		// Get the table name from the ORM model
+		$table_name = ORM::factory('DataLog')->table_name();
+
+		// Create the base table
 		$db = Database::instance();
-		$sql = "CREATE TABLE IF NOT EXISTS ".$db->quote_table('datalog')." (
+		$sql = "CREATE TABLE IF NOT EXISTS ".$db->quote_table($table_name)." (
 			".$db->quote_column('id')." INT(6) NOT NULL AUTO_INCREMENT,
 			".$db->quote_column('date_and_time')." DATETIME NOT NULL,
 			".$db->quote_column('table_name')." VARCHAR(65) NOT NULL,
@@ -16,8 +20,17 @@ class Task_DataLog extends Minion_Task {
 			".$db->quote_column('new_value')." TEXT,
 			PRIMARY KEY (".$db->quote_column('id').")
 		)";
-		Minion_CLI::write('Creating database table: '.$db->quote_table('datalog'));
+		Minion_CLI::write('Creating database table: '.$db->quote_table($table_name));
 		$db->query(NULL, $sql);
+
+		// Change the row identifier,
+		// because '_id' is meant to only be used for foreign keys
+		Minion_CLI::write('Changing row_id to row_pk');
+		$sql = "ALTER TABLE ".$db->quote_table($table_name)."
+			CHANGE COLUMN ".$db->quote_column('row_id')."
+			".$db->quote_column('row_pk')." INT(12) NOT NULL";
+		$db->query(NULL, $sql);
+
 	}
 
 }
