@@ -10,7 +10,7 @@ class Model_DataLog extends ORM {
 		'table_name' => array('type' => 'string'),
 		'column_name' => array('type' => 'string'),
 		'row_id' => array('type' => 'int'),
-		'username' => array('type' => 'int'),
+		'username' => array('type' => 'string'),
 		'old_value' => array('type' => 'string', 'is_nullable' => TRUE),
 		'new_value' => array('type' => 'string', 'is_nullable' => TRUE),
 	);
@@ -21,20 +21,19 @@ class Model_DataLog extends ORM {
 	);
 
 	/**
-	 * Updates or creates the record depending on loaded(), setting the username
-	 * to the current user's username and creating a matching Users record if
-	 * one does not exist.
-	 * 
+	 * Updates or creates the record, setting the username to 'anonymous' (or
+	 * a localised equivalent) if the current user is not logged in with Auth.
+	 *
 	 * @chainable
 	 * @param  Validation $validation Validation object
-	 * @return ORM
+	 * @return Model_DataLog
 	 */
 	public function save(Validation $validation = NULL)
 	{
 		$this->username = Auth::instance()->get_user();
 		if (is_null($this->username))
 		{
-			$this->username = __('Anonymous');
+			$this->username = __(Kohana::message('datalog', 'anon_username'));
 		}
 		return parent::save($validation);
 	}
