@@ -2,21 +2,23 @@
 
 class DataLog_Core {
 
+	/** @var string The name of the table being logged. */
+	protected $table_name;
+
 	/** @var array */
 	protected $old_values;
 
 	/** @var string The suffix used to designate foreign key fields. */
 	protected $foreign_key_suffix = '_id';
 
-	public function __construct($table_name, $original_values)
+	public function __construct($table_name, $old_values)
 	{
 		$this->table_name = $table_name;
-		$this->old_values = $original_values;
+		$this->old_values = $old_values;
 	}
 
 	public function save($row_pk, $object, $related)
 	{
-		//var_dump($object);exit();
 		foreach ($object as $field => $new_datum)
 		{
 			// Handle foreign keys
@@ -32,7 +34,7 @@ class DataLog_Core {
 			// Handle normal direct values
 			else
 			{
-				$old_value = $this->old_values[$field];
+				$old_value = Arr::get($this->old_values, $field, NULL);
 				$new_value = $new_datum;
 			}
 			// Save the log entry
