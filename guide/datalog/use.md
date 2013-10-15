@@ -45,7 +45,7 @@ If no `candidate_key()` method is defined.... @TODO
 You can get an HTML table view of a model record's datalog
 with a simple subrequest:
 
-	$datalog_url = "datalog/$table_name/$row_pk";
+	$datalog_url = Route::get('datalog')->uri(array('table_name' => $table_name, 'row_pk' => $row_pk));
 	$datalog = Request::factory($datalog_url)->execute()->body();
 
 This view is restricted to subrequests only, and is not accessible directly
