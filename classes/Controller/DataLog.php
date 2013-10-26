@@ -14,7 +14,7 @@ class Controller_DataLog extends Controller {
 	public function action_index()
 	{
 		// Get datalog
-		$datalog = ORM::factory('Datalog')
+		$datalog = ORM::factory('DataLog')
 			->where('table_name', '=', $this->request->param('table_name'))
 			->and_where('row_pk', '=', $this->request->param('row_pk'))
 			->order_by('date_and_time', 'DESC')
