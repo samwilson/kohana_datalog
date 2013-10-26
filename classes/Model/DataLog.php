@@ -30,7 +30,7 @@ class Model_DataLog extends ORM {
 	 */
 	public function save(Validation $validation = NULL)
 	{
-		$this->username = Auth::instance()->get_user();
+		$this->username = Auth::instance()->get_user()->username;
 		if (is_null($this->username))
 		{
 			$this->username = __(Kohana::message('datalog', 'anon_username'));
