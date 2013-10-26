@@ -23,11 +23,11 @@ class DataLog_Core {
 		{
 			// Handle foreign keys
 			$prefix = substr($field, 0, -strlen($this->foreign_key_suffix));
-			$related_columns = array_keys($related);
-			if (isset($related_columns[$prefix]))
+			
+			if (isset($related[$prefix]))
 			{
 				$old_datum = $this->old_values[$field];
-				$foreign_model = $related->object_name();
+				$foreign_model = $related[$prefix]['model'];
 				$old_value = ORM::factory($foreign_model, $old_datum)->candidate_key();
 				$new_value = ORM::factory($foreign_model, $new_datum)->candidate_key();
 			}
