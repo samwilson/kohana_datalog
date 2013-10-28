@@ -26,7 +26,7 @@ class DataLog_Core {
 			
 			if (isset($related[$prefix]))
 			{
-				$old_datum = $this->old_values[$field];
+				$old_datum = isset($this->old_values[$field]) ? $this->old_values[$field] : null;
 				$foreign_model = $related[$prefix]['model'];
 				$old_value = ORM::factory($foreign_model, $old_datum)->candidate_key();
 				$new_value = ORM::factory($foreign_model, $new_datum)->candidate_key();
