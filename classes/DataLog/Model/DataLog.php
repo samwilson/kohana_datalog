@@ -42,7 +42,7 @@ class DataLog_Model_DataLog extends ORM {
 			$this->username = __(Kohana::message('datalog', 'anon_username'));
 		}
 		
-		return parent::save($validation);
+		return $this->loaded() ? $this->update($validation) : $this->create($validation);
 	}
 
 }
