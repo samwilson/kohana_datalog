@@ -16,7 +16,7 @@
 		<tr>
 			<th>Date &amp; time</th>
 			<th>User</th>
-			<?php if (isset($show_table)) echo '<th>Record Type</th><th>Record ID</th>' ?>
+			<?php if ($show_table) echo '<th>Record Type</th><th>Record ID</th>' ?>
 			<th>Field</th>
 			<th class="old">Old value</th>
 			<th></th>
@@ -30,7 +30,7 @@
 			<td><span class="datetime-convert"><?php echo $log->date_and_time ?></span></td>
 			<td><?php echo $log->username ?></td>
 
-			<?php if (isset($show_table)): ?>
+			<?php if ($show_table): ?>
 			<td><?php echo ucwords(str_replace('_', ' ', $log->table_name)) ?></td>
 			<td><?php echo $log->row_pk ?></td>
 			<?php endif ?>

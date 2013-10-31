@@ -13,23 +13,27 @@ class Controller_DataLog extends Controller {
 
 	public function action_index()
 	{
-		// Get datalog
-		$datalog = ORM::factory('DataLog')->where('table_name', '=', $this->request->param('table_name'));
-		
-		if ($this->request->param('row_pk') != NULL)
-		{
-			$datalog = $datalog->and_where('row_pk', '=', $this->request->param('row_pk'));
-		}
-			
-		$datalog = $datalog->order_by('date_and_time', 'DESC')
-			     ->order_by('id', 'DESC')
-			     ->find_all();
+		$view = View::factory('datalog');
+		$view->show_table = TRUE;
 
-		if (count($datalog) > 0)
+		// Get datalog
+		$datalog = ORM::factory('DataLog')
+			->where('table_name', '=', $this->request->param('table_name'));
+		$row_pk = $this->request->param('row_pk');
+		if ($row_pk != NULL)
+		{
+			$view->show_table = FALSE;
+			$datalog->and_where('row_pk', '=', $row_pk);
+		}
+
+		$log_entries = $datalog->order_by('date_and_time', 'DESC')
+			->order_by('id', 'DESC')
+			->find_all();
+
+		if (count($log_entries) > 0)
 		{
 			// Populate and return the view
-			$view = View::factory('datalog');
-			$view->datalog = $datalog;
+			$view->datalog = $log_entries;
 			$this->response->body($view->render());
 		}
 	}

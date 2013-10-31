@@ -1,16 +1,15 @@
-
 <?php defined('SYSPATH') OR die('No direct script access.');
 
 class DataLog_Core {
 
 	/**
-	* @var array The name of the table being logged.
-	*/
+	 * @var array The name of the table being logged.
+	 */
 	protected $_table_name;
 
 	/**
-	* @var array Original values of model being logged
-	*/
+	 * @var array Original values of model being logged
+	 */
 	protected $_old_values;
 
 	/**
@@ -26,23 +25,22 @@ class DataLog_Core {
 	}
 
 	/**
-	* Check the field to see if it is a foreign key to another model
-	* and return the foreign models name if it is
-	*
-	* @param  string $field  Field to search for
-	* @param  array  $belongs_to = NULL $_belongs_to property for model being saved
-	* @return string Name of foreign model
-	*/
+	 * Check the field to see if it is a foreign key to another model
+	 * and return the foreign model's name if it is.
+	 *
+	 * @param  string $field      Field to search for
+	 * @param  array  $belongs_to The belongs-to relationships of the model being saved
+	 * @return string Name of foreign model
+	 */
 	protected function _foreign_model_search($field, array $belongs_to = NULL)
 	{
 		if (is_array($belongs_to))
 		{
-			foreach ($belongs_to as $key => $value)
+			foreach ($belongs_to as $value)
 			{
-				$current_key = $key;
-				if ( ($field === $value) OR (is_array($value) AND (bool) $this->_foreign_model_search($field,$value)))
+				if ($value['foreign_key'] == $field)
 				{
-					return $belongs_to[$current_key]['model'];
+					return $value['model'];
 				}
 			}
 		}
@@ -50,21 +48,22 @@ class DataLog_Core {
 	}
 
 	/**
-	* Check data being saved and create log entries for modified values
-	*	
-	* @param	int    $row_pk  Primary Key of model being saved
-	* @param	array  $belongs_to = NULL $_belongs_to property of model being saved
-	* @return	string  Name of foreign model
-	*/
+	 * Check data being saved and create log entries for modified values.
+	 *
+	 * @param  int    $row_pk     Primary Key of model being saved
+	 * @param  array  $object     Current values of the ORM object
+	 * @param  array  $belongs_to The belongs-to relationships of the model being saved
+	 * @return string Name of foreign model
+	 */
 	public function save($row_pk, $object, array $belongs_to = NULL)
 	{
 		foreach ($object as $field => $new_datum)
 		{
 			// Check if current field is a foreign key
 			$foreign_model = $this->_foreign_model_search($field, $belongs_to);
-			
+
 			// If foreign model exists set value using candidate_key value
-			if ( (bool) $foreign_model)
+			if ($foreign_model !== FALSE)
 			{
 				$old_datum = Arr::get($this->_old_values, $field, NULL);
 				$old_value = ORM::factory($foreign_model, $old_datum)->candidate_key();
@@ -76,7 +75,7 @@ class DataLog_Core {
 				$old_value = Arr::get($this->_old_values, $field, NULL);
 				$new_value = $new_datum;
 			}
-			
+
 			// Save the log entry
 			if ($new_value != $old_value)
 			{
@@ -90,4 +89,5 @@ class DataLog_Core {
 			}
 		}
 	}
+
 }
