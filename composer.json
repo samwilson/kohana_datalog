@@ -14,6 +14,16 @@
 			"email": "sam@samwilson.id.au",
 			"homepage": "http://samwilson.id.au/",
 			"role": "developer"
+		},
+		{
+			"name": "JustLikeIcarus",
+			"email": "JustLikeIcarus@gmail.com",
+			"role": "developer"
+		},
+		{
+			"name": "Kerstens Maxim",
+			"email": "maxim.kerstens@gmail.com",
+			"role": "developer"
 		}
 	],
 	"require": {
